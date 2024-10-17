@@ -1,5 +1,8 @@
 ---
 title: "notebooks"
+listing:
+  contents:
+    - "*.qmd"
 ---
 
 This is a Quarto website.

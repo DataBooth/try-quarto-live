@@ -1,0 +1,70 @@
+{
+  "cells": [
+    {
+      "cell_type": "markdown",
+      "metadata": {},
+      "source": [
+        "---\n",
+        "title: Sine function\n",
+        "format: html\n",
+        "filters:\n",
+        "  - shinylive\n",
+        "---\n",
+        "\n",
+        "\n",
+        "The plot below allows you to control parameters used in the sine function.\n",
+        "Experiment with the _period_, _amplitude_, and _phase shift_ to see how they affect the graph.\n",
+        "\n",
+        "```{shinylive-python}\n",
+        "#| standalone: true\n",
+        "#| viewerHeight: 420\n",
+        "\n",
+        "from shiny import App, render, ui\n",
+        "import numpy as np\n",
+        "import matplotlib.pyplot as plt\n",
+        "\n",
+        "app_ui = ui.page_fluid(\n",
+        "    ui.layout_sidebar(\n",
+        "        ui.panel_sidebar(\n",
+        "            ui.input_slider(\"period\", \"Period\", 0.5, 2, 1, step=0.5),\n",
+        "            ui.input_slider(\"amplitude\", \"Amplitude\", 0, 2, 1, step=0.25),\n",
+        "            ui.input_slider(\"shift\", \"Phase shift\", 0, 2, 0, step=0.1),\n",
+        "        ),\n",
+        "        ui.panel_main(\n",
+        "            ui.output_plot(\"plot\"),\n",
+        "        ),\n",
+        "    ),\n",
+        ")\n",
+        "\n",
+        "\n",
+        "def server(input, output, session):\n",
+        "    @output\n",
+        "    @render.plot(alt=\"Sine function\")\n",
+        "    def plot():\n",
+        "        t = np.arange(0.0, 4.0, 0.01)\n",
+        "        s = input.amplitude() * np.sin(\n",
+        "            (2 * np.pi / input.period()) * (t - input.shift() / 2)\n",
+        "        )\n",
+        "        fig, ax = plt.subplots()\n",
+        "        ax.set_ylim([-2, 2])\n",
+        "        ax.plot(t, s)\n",
+        "        ax.grid()\n",
+        "\n",
+        "\n",
+        "app = App(app_ui, server)\n",
+        "\n",
+        "```"
+      ]
+    }
+  ],
+  "metadata": {
+    "kernelspec": {
+      "name": ".venv_dev_emmaus-walking-data",
+      "language": "python",
+      "display_name": ".venv_dev_emmaus-walking-data",
+      "path": "/Users/mjboothaus/Library/Jupyter/kernels/.venv_dev_emmaus-walking-data"
+    }
+  },
+  "nbformat": 4,
+  "nbformat_minor": 4
+}

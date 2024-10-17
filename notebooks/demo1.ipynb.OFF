@@ -10,9 +10,9 @@
    "source": [
     "---\n",
     "title: \"DuckDB with Python Example in Quarto Live\"\n",
-    "format:\n",
-    "  html:\n",
-    "    code-fold: true\n",
+    "format: \n",
+    "  live-html:\n",
+    "    code-tools: true\n",
     "jupyter: python3\n",
     "---"
    ]
@@ -20,6 +20,39 @@
   {
    "cell_type": "code",
    "execution_count": 1,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "import duckdb\n",
+    "import pandas as pd\n",
+    "import matplotlib.pyplot as plt"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 2,
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "The answer is: [(42,)]\n"
+     ]
+    }
+   ],
+   "source": [
+    "#| standalone: true\n",
+    "#| components: [editor, viewer]\n",
+    "\n",
+    "con = duckdb.connect()\n",
+    "result = con.execute(\"SELECT 42 AS answer\").fetchall()\n",
+    "print(\"The answer is:\", result)"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 3,
    "metadata": {},
    "outputs": [
     {
@@ -45,15 +78,10 @@
     }
    ],
    "source": [
-    "import duckdb\n",
-    "import pandas as pd\n",
-    "import matplotlib.pyplot as plt\n",
-    "\n",
-    "# Create an in-memory DuckDB connection\n",
-    "con = duckdb.connect(':memory:')\n",
+    "con1 = duckdb.connect(':memory:')\n",
     "\n",
     "# Create a sample table\n",
-    "con.execute(\"\"\"\n",
+    "con1.execute(\"\"\"\n",
     "    CREATE TABLE sales (\n",
     "        date DATE,\n",
     "        product VARCHAR,\n",
@@ -62,7 +90,7 @@
     "\"\"\")\n",
     "\n",
     "# Insert some sample data\n",
-    "con.execute(\"\"\"\n",
+    "con1.execute(\"\"\"\n",
     "    INSERT INTO sales VALUES\n",
     "    ('2023-01-01', 'Widget A', 100.50),\n",
     "    ('2023-01-02', 'Widget B', 200.75),\n",
@@ -72,7 +100,7 @@
     "\"\"\")\n",
     "\n",
     "# Query the data\n",
-    "result = con.execute(\"\"\"\n",
+    "result = con1.execute(\"\"\"\n",
     "    SELECT product, SUM(amount) as total_sales\n",
     "    FROM sales\n",
     "    GROUP BY product\n",
@@ -92,7 +120,7 @@
     "plt.show()\n",
     "\n",
     "# Close the connection\n",
-    "con.close()"
+    "con1.close()"
    ]
   },
   {
@@ -110,7 +138,15 @@
    "name": "python3"
   },
   "language_info": {
+   "codemirror_mode": {
+    "name": "ipython",
+    "version": 3
+   },
+   "file_extension": ".py",
+   "mimetype": "text/x-python",
    "name": "python",
+   "nbconvert_exporter": "python",
+   "pygments_lexer": "ipython3",
    "version": "3.11.10"
   }
  },

@@ -1,0 +1,70 @@
+---
+title: DuckDB with Python Example in Quarto Live
+format:
+  live-html:
+    code-tools: true
+jupyter: python3
+---
+
+
+```{pyodide}
+for x in range(5):
+  print(x ** 2)
+
+import duckdb
+import pandas as pd
+import matplotlib.pyplot as plt
+
+con = duckdb.connect()
+result = con.execute("SELECT 42 AS answer").fetchall()
+print("The answer is:", result)
+```
+
+
+```{pyodide}
+con1 = duckdb.connect(':memory:')
+
+# Create a sample table
+con1.execute("""
+    CREATE TABLE sales (
+        date DATE,
+        product VARCHAR,
+        amount DECIMAL(10, 2)
+    )
+""")
+
+# Insert some sample data
+con1.execute("""
+    INSERT INTO sales VALUES
+    ('2023-01-01', 'Widget A', 100.50),
+    ('2023-01-02', 'Widget B', 200.75),
+    ('2023-01-03', 'Widget A', 150.25),
+    ('2023-01-04', 'Widget C', 300.00),
+    ('2023-01-05', 'Widget B', 175.50)
+""")
+
+# Query the data
+result = con1.execute("""
+    SELECT product, SUM(amount) as total_sales
+    FROM sales
+    GROUP BY product
+    ORDER BY total_sales DESC
+""").fetchdf()
+
+# Display the results
+print("Sales by Product:")
+print(result)
+
+# Create a bar plot
+plt.figure(figsize=(10, 6))
+plt.bar(result['product'], result['total_sales'])
+plt.title('Total Sales by Product')
+plt.xlabel('Product')
+plt.ylabel('Total Sales')
+plt.show()
+
+# Close the connection
+con1.close()
+```
+
+
