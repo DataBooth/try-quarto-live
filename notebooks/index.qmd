@@ -1,0 +1,10 @@
+---
+title: "notebooks"
+listing:
+  contents:
+    - "*.qmd"
+---
+
+This is a Quarto website.
+
+To learn more about Quarto websites visit <https://quarto.org/docs/websites>.

@@ -1,0 +1,18 @@
+project:
+  type: website
+
+# filters:
+#   - shinylive
+
+
+render:
+    - "*.qmd"
+    # - "*.ipynb"
+
+website:
+  title: "notebooks"
+  navbar:
+    left:
+      - href: index.qmd
+        text: Home
+      - about.qmd

@@ -1,0 +1,21 @@
+[project]
+name = "try-quarto-live"
+version = "0.1.0"
+description = "Default template for PDM package"
+authors = [
+    {name = "Michael Booth", email = "michael@databooth.com.au"},
+]
+dependencies = [
+    "notebook>=7.2.2",
+    "duckdb>=1.1.2",
+    "pandas>=2.2.3",
+    "matplotlib>=3.9.2",
+    "shinylive>=0.6.0",
+]
+requires-python = "==3.11.*"
+readme = "README.md"
+license = {text = "DataBooth"}
+
+
+[tool.pdm]
+distribution = false
